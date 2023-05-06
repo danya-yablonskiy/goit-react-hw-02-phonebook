@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import { Form } from './Form/Form';
+import { Filter } from './Filter/Filter';
+import { ContactList } from './ContactList/ContactList';
 export class App extends Component {
   state = {
     contacts: [
@@ -12,7 +14,7 @@ export class App extends Component {
     filter: '',
   };
 
-  // Чому це не працює?
+  // Чому це не працює? Тут альорт спрацьовує, але після нього ім'я всеодно додається
   // addContact = (name, number) => {
   //   this.state.contacts.map(contact => {
   //     if (contact.name.includes(name)) {
@@ -52,38 +54,17 @@ export class App extends Component {
   }
 
   render() {
-    const filterName = this.state.contacts.filter(contact =>
-      contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
-    );
-
     return (
       <div>
         <h1>Phonebook</h1>
         <Form onSubmit={this.addContact} />
         <h2>Contacts</h2>
-        <label>
-          Find contact by name
-          <input
-            type="text"
-            value={this.state.filter}
-            onChange={this.changeFilter}
-          ></input>
-        </label>
-        <ul>
-          {filterName.map(contact => (
-            <li key={contact.id}>
-              <p>
-                {contact.name}: {contact.number}
-              </p>
-              <button
-                type="button"
-                onClick={() => this.deleteContact(contact.id)}
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
+        <Filter onChange={this.changeFilter} value={this.state.filter} />
+        <ContactList
+          onClick={this.deleteContact}
+          contacts={this.state.contacts}
+          filter={this.state.filter}
+        />
       </div>
     );
   }
