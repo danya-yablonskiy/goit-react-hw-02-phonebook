@@ -1,19 +1,20 @@
+import { ListItem, Button, List } from './ContactList.styled';
 export const ContactList = ({ onClick, contacts, filter }) => {
   const filterName = contacts.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
   return (
-    <ul>
+    <List>
       {filterName.map(contact => (
-        <li key={contact.id}>
+        <ListItem key={contact.id}>
           <p>
             {contact.name}: {contact.number}
           </p>
-          <button type="button" onClick={() => onClick(contact.id)}>
+          <Button type="button" onClick={() => onClick(contact.id)}>
             Delete
-          </button>
-        </li>
+          </Button>
+        </ListItem>
       ))}
-    </ul>
+    </List>
   );
 };
